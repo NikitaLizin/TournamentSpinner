@@ -69,11 +69,7 @@ let tournament = {
 
 
 
-console.log("type:", tournament.type); 
-console.log("amount:", tournament.amountOfPlayers); 
-console.log("teams:",tournament.teams); 
-console.log("players:" ,tournament.players)
-console.log("step:", step); 
+
 
 function tournamentType (element) {
   const pressedLabelValue = element.innerHTML;
@@ -100,7 +96,6 @@ function step1 () {
   form.playerAmount.style.display = "flex"; 
   range.setAttribute("step",tournament.type); 
   form.btn.addEventListener("click",step2); 
-  console.log(sessionStorage.tournamentType); 
   }
   
 }
@@ -285,9 +280,7 @@ function createPlayerCards () {
 function switchTier (element) {
   const tierInput = element.childNodes[1] 
   let value = tierInput.value; 
-  console.log(element); 
-  console.log(tierInput);  
-  console.log(value);
+  
   
   switch (value) {
     case "Bottom tier": 
@@ -313,6 +306,7 @@ function collectTiers () {
     
     const playerIndex = cards[i].children[0].value 
     const playerBracket = cards[i].children[1].value;
+    console.log(playerBracket); 
 
     if (!playerBracket) {
       console.log("You have not set a value on card: " + cards[i].children[2].innerHTML); 
