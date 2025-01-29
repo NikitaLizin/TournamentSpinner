@@ -1,6 +1,6 @@
 :root{
   --WheelSize: 200px; 
-  --formWidth: 150px;
+  --formWidth: 250px;
   --formHeight: 300px; 
   --wheelBtnSize: 50px;
   --arrowSize:20px;   
@@ -99,7 +99,7 @@ main{
 
 .form h2 {
   margin-bottom: 20px;
-  font-size: 0.9rem;  
+  font-size: 1.5rem;  
   color:#24ac71; 
 }
 
