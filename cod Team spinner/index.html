@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;700&family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded" />
+  <link rel = "stylesheet" media="all and (min-width: 1600px)" href = "./style/wideScreen.css">
+  <link rel = "stylesheet" media="all and (max-width: 1600px) and (min-width:600px)" href = "./style/mediumScreen.css">
+  <link rel = "stylesheet" media="all and (max-width: 600px)" href = "./style/smallScreen.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+    <!-- Main to have all the content inside -->
+    
+    <header>
+      <!-- <button> Tournament Type  </button>
+      <div> </div>
+      <button> Amount Of Players </button>
+      <div> </div>
+      <button> Player Names </button>
+      <div> </div>
+      <button> Player Tiers </button>
+      <div> </div>
+      <button> Wheel </button> -->
+      
+
+    </header>
+    
+    
+    
+  
+  <main> 
+      <!-- 1). form to collect information -->
+    <div class = "form "> 
+        <h2 id="h2Form"> Chose tournament type! </h2>
+
+        <!-- 1.1 quads, trios,duos -->
+        <div class = "typeForm" id="type" style="display:none"> 
+          <input type = "radio" id = "duos" name = "type" value = "duos" style = display:none >
+          <label class = "typeLabel" for = "duos" onclick = tournamentType(this)>Duos</label> 
+          <input type = "radio" id = "trios" name = "type" value = "trios" style = display:none>
+          <label class = "typeLabel" for = "trios" onclick = tournamentType(this)>Trios</label>
+          <input type = "radio" id = "quads" name = "type" value = "quads" style = display:none>
+          <label class = "typeLabel" for = "quads" onclick = tournamentType(this)>Quads</label>
+        </div> 
+
+        <!-- 1.2 amount of players -->
+         <div class = "playerAmountForm" id="playerAmount" style="display:none">
+          <h3 id ="rangeValue"> 0 </h3>
+          <p id = "rangeMessage"> Get some friends? </p>
+         <div class="line"> 
+          <input type="range" min="0" max="100" value="0" id="rangeInput">
+          <span class="thumb"> &#128557; </span> </div>
+        </div> 
+
+        <!-- 1.3 player names  -->
+      
+      <textarea rows="12" placeholder="Type in the player Names.." id="playerNamesArea" spellcheck="false" style="display:none"></textarea>
+
+         <!-- 1.4 chose bracket -->
+      <div class="bracketForm" style="display:none"> </div> 
+
+      <button id = "selectBtn"> Next 
+        <span class="material-symbols-rounded"> arrow_forward_ios </span> 
+      </button>
+    </div>
+
+    <div class = "winnerCard"style="display:none"> 
+      <h2 id ="teamPicking">    </h2> <strong id="winnerName"> </strong>   
+    </div>
+
+    <div class="teamsContainer" style="display:none"> 
+    </div>
+
+    <div id = "wheelContainer"style="display:none"> 
+      <canvas id="wheelCanvas" >  </canvas>
+      <div class = "arrow"> </div>
+      <button id="spinBtn"> Spin! </button>
+    </div>
+
+    
+
+    
+
+  </main>
+
+    <!-- 2). a spinner  -->
+    <!-- 2.1 a button to spin -->
+    <!-- 3.1 a button to spin again -->
+    
+    <!-- 3). a container for all cards -->
+    <!-- 3.1 a card for each team -->
+    <!-- 3.2 a header with team names -->
+    <!-- 3.3 a list with all players -->
+
+
+  <script src = "index.js"></script>
+</body>
+</html>

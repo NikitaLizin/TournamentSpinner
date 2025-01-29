@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+
+    *{
+      margin:0; 
+      padding: 0; 
+      box-sizing: border-box;
+    }
+
+    body{
+      width:100%; 
+      height:100vh; 
+      display:flex; 
+      align-items: center;
+      justify-content: center;
+      position:relative; 
+    }
+
+    
+
+    /* @keyframes winnerCard {
+      0% {
+        visibility: visible;
+        top: 0; 
+      }
+      100% { 
+        visibility: visible;
+        top: 50%; 
+        bottom: 50%; 
+      }
+
+      100% {
+        top: 50%; 
+        scale: 0.5; 
+      }
+    } */
+
+  </style>
+</head>
+<body>
+
+  <div class = "winnerCard"> 
+    <h2 id="winnerName"> </h2>
+  </div>
+
+  
+
+  <script> 
+    // Set up the canvas
+    const container = document.getElementById('wheelContainer');
+    const canvas = document.getElementById('wheelCanvas');
+    const ctx = canvas.getContext('2d');
+    const spinBtn = document.getElementById("spinBtn"); 
+    const winnerName = document.getElementById("winnerName"); 
+
+    function resizeCanvas() {
+      const containerWidth = container.clientWidth;
+      const containerHeight = container.clientHeight;
+      const canvasSize = Math.min(containerWidth, containerHeight);
+      canvas.width = canvasSize;
+      canvas.height = canvasSize;
+      centerX = canvas.width / 2;
+      centerY = canvas.height / 2;
+      wheelRadius = canvas.width / 2;
+      drawWheel();
+    }
+
+    // Wheel configuration
+    let segments = ['Prize 1', 'Prize 2', 'Prize 3', 'Prize 4', 'Prize 5', 'Prize 6'];
+    const segmentColors = ['#b46f6d'];
+    let numSegments = segments.length;
+    let wheelRadius = canvas.width / 2;
+    let centerX = canvas.width / 2;
+    let centerY = canvas.height / 2;
+    let currentAngle = 0;
+    let spinning = false;
+    let spinVelocity = 0;
+
+    // Draw the wheel
+    function drawWheel() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+      // Draw each segment
+      for (let i = 0; i < numSegments; i++) {
+        const startAngle = (i * 2 * Math.PI) / numSegments + currentAngle;
+        const endAngle = ((i + 1) * 2 * Math.PI) / numSegments + currentAngle;
+
+        ctx.beginPath();
+        ctx.moveTo(centerX, centerY);
+        ctx.arc(centerX, centerY, wheelRadius, startAngle, endAngle);
+        ctx.closePath();
+
+        ctx.fillStyle = segmentColors[i % segmentColors.length];
+        ctx.fill();
+
+        ctx.strokeStyle = '#fff';
+        ctx.lineWidth = 2;
+        ctx.stroke();
+
+        // Add text to the segment
+        ctx.save();
+        ctx.translate(centerX, centerY);
+        ctx.rotate((startAngle + endAngle) / 2);
+        ctx.textAlign = 'right';
+        ctx.fillStyle = '#000';
+        ctx.font = `${wheelRadius / 12}px Arial`;
+        ctx.fillText(segments[i], wheelRadius * 0.9, 0);
+        ctx.restore();
+      }
+
+      // Draw the pointer
+      /* ctx.beginPath();
+      ctx.moveTo(centerX - 10, centerY - wheelRadius - 10);
+      ctx.lineTo(centerX + 10, centerY - wheelRadius - 10);
+      ctx.lineTo(centerX, centerY - wheelRadius - 40);
+      ctx.closePath();
+      ctx.fillStyle = '#000';
+      ctx.fill(); */
+
+      // Draw spin button in the center
+      /* const buttonRadius = wheelRadius * 0.2;
+      ctx.beginPath();
+      ctx.arc(centerX, centerY, buttonRadius, 0, 2 * Math.PI);
+      ctx.fillStyle = '#000';
+      ctx.fill();
+
+      ctx.fillStyle = '#fff';
+      ctx.font = `${buttonRadius / 2}px Arial`;
+      ctx.textAlign = 'center';
+      ctx.textBaseline = 'middle';
+      ctx.fillText('SPIN', centerX, centerY); */
+    }
+
+    // Detect spin button click
+    spinBtn.addEventListener('click', (event) => {
+      const rect = canvas.getBoundingClientRect();
+      const clickX = event.clientX - rect.left;
+      const clickY = event.clientY - rect.top;
+      const distance = Math.sqrt(Math.pow(clickX - centerX, 2) + Math.pow(clickY - centerY, 2));
+
+      if (distance <= wheelRadius * 0.2 && !spinning) {
+        spinWheel();
+      }
+    });
+
+    // Spin the wheel
+    function spinWheel() {
+      if (spinning || numSegments === 0) return;
+      spinning = true;
+      spinVelocity = Math.random() * 0.1 + 0.2; // Initial velocity
+      requestAnimationFrame(animateSpin);
+    }
+
+    // Animate the spinning
+    function animateSpin() {
+      if (spinVelocity > 0.001) {
+        currentAngle += spinVelocity;
+        spinVelocity *= 0.98; // Gradual slowing
+        drawWheel();
+        requestAnimationFrame(animateSpin);
+      } else {
+        spinning = false;
+        spinVelocity = 0;
+        determineWinner();
+      }
+    }
+
+    // Determine the winner
+    function determineWinner() {
+      if (numSegments === 0) {
+        alert('All segments have been removed. The game is over!');
+        return;
+      }
+
+      const segmentAngle = (2 * Math.PI) / numSegments;
+      const adjustedAngle = (2 * Math.PI - (currentAngle % (2 * Math.PI))) % (2 * Math.PI);
+      const winningIndex = Math.floor(adjustedAngle / segmentAngle);
+      /* winnerName.innerHTML = `Team 1 gets: ${segments[winningIndex]}`; */
+
+      // Remove the winning segment
+      segments.splice(winningIndex, 1);
+      numSegments = segments.length;
+
+      if (numSegments > 0) {
+        spinWheel(); // Automatically spin again if segments remain
+      } else {
+        drawWheel();
+      }
+    }
+
+    // Resize canvas on window resize or container size change
+    window.addEventListener('resize', resizeCanvas);
+
+    // Initial draw
+    resizeCanvas();
+  </script>
+  
+</body>
+</html>
