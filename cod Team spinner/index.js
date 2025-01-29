@@ -352,7 +352,7 @@ function resizeCanvas() {
 
 // Draw the wheel
 function drawWheel() {  
-  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  ctx.drawImage(canvas,0,0);;
   // Draw each segment
   for (let i = 0; i < numSegments; i++) {
     const startAngle = (i * 2 * Math.PI) / numSegments + currentAngle;
