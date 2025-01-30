@@ -339,50 +339,65 @@ function collectTiers () {
 }
 
 function resizeCanvas() {
+ 
+
   const containerWidth = container.clientWidth;
   const containerHeight = container.clientHeight;
   const canvasSize = Math.min(containerWidth, containerHeight);
-  canvas.width = canvasSize;
-  canvas.height = canvasSize;
-  centerX = canvas.width / 2;
-  centerY = canvas.height / 2;
-  wheelRadius = canvas.width / 2;
+
+  
+  const scale = window.devicePixelRatio || 2;
+  canvas.width = canvasSize * scale;
+  canvas.height = canvasSize * scale;
+  canvas.style.width = `${canvasSize}px`;
+  canvas.style.height = `${canvasSize}px`;
+
+  ctx.scale(scale, scale);
+
+  centerX = canvasSize / 2;
+  centerY = canvasSize / 2;
+  wheelRadius = canvasSize / 2;
+
   drawWheel();
 }
 
 // Draw the wheel
 function drawWheel() {  
-  ctx.drawImage(canvas,0,0);;
-  // Draw each segment
+  
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  ctx.lineCap = "round"; 
+  
   for (let i = 0; i < numSegments; i++) {
     const startAngle = (i * 2 * Math.PI) / numSegments + currentAngle;
     const endAngle = ((i + 1) * 2 * Math.PI) / numSegments + currentAngle;
-
+  
     ctx.beginPath();
     ctx.moveTo(centerX, centerY);
     ctx.arc(centerX, centerY, wheelRadius, startAngle, endAngle);
     ctx.closePath();
-
+  
     ctx.fillStyle = segmentColors[i % segmentColors.length];
     ctx.fill();
-
-    ctx.strokeStyle = '#fff';
-    ctx.lineWidth = 2;
+    ctx.strokeStyle = '#ffffff';
+    ctx.lineWidth = 3;
     ctx.stroke();
-
-    // Add text to the segment
+  
+      
     ctx.save();
     ctx.translate(centerX, centerY);
     ctx.rotate((startAngle + endAngle) / 2);
     ctx.textAlign = 'right';
-    ctx.fillStyle = '#fff';
-    ctx.font = `${wheelRadius / 9}px Roboto, sans-serif`;
-    ctx.fillText(segments[i], wheelRadius * 0.9, 0);
+    ctx.fillStyle = '#ffffff';
+    ctx.font = `${wheelRadius / 10}px Arial`;
+    ctx.fillText(segments[i], wheelRadius * 0.85, 10);
     ctx.restore();
   }
-
+    
 
 }
+
+
+
 
 // Detect spin button click
 spinBtn.addEventListener('click', (event) => {
